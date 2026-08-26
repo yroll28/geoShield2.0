@@ -34,7 +34,7 @@
     <a href="#updates">UPDATES</a>
     <a href="#about">ABOUT</a>
     <a href="#contact">CONTACT</a>
-       <a class="request request-trigger" href="#request">REQUEST ASSESSMENT</a>
+    <a class="request request-trigger" href="#request">REQUEST ASSESSMENT</a>
     <button class="navClose" type="button" aria-label="Close menu" onclick="closeMenu()">✕</button>
   </nav>
 
@@ -194,11 +194,11 @@
   <div class="chat-backdrop" data-close-chat></div>
   <div class="chat-card" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
     <button class="chat-close" type="button" aria-label="Close customer service" data-close-chat>✕</button>
-    <div class="chat-head"><span>CUSTOMER SERVICE</span><h2 id="chatTitle">Chat with GeoShield</h2><p>Use your request reference and the same email you submitted with your project request.</p></div>
+    <div class="chat-head"><span>CUSTOMER SERVICE</span><h2 id="chatTitle">Chat with GeoShield</h2><p>Have a question? Start a conversation with our team — no request reference needed.</p></div>
     <div id="chatAccess">
-      <label>Request Reference<input id="chatRef" placeholder="REQ-1234567890" autocomplete="off"></label>
+      <label>Your Name<input id="chatName" placeholder="Juan Dela Cruz" autocomplete="name"></label>
       <label>Email Address<input id="chatEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
-      <button id="chatOpenBtn" class="gold-btn" type="button">OPEN CONVERSATION</button>
+      <button id="chatOpenBtn" class="gold-btn" type="button">START CHAT</button>
       <p id="chatAccessMsg" class="form-success" aria-live="polite"></p>
     </div>
     <div id="chatRoom" class="hidden">

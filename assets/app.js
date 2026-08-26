@@ -572,7 +572,7 @@ function chatEndpoint(){
 }
 let chatState={requestId:"",email:"",token:"",thread:null};
 function chatEls(){return {modal:document.getElementById("chatModal"),access:document.getElementById("chatAccess"),room:document.getElementById("chatRoom"),messages:document.getElementById("chatMessages"),status:document.getElementById("chatStatus"),accessMsg:document.getElementById("chatAccessMsg")};}
-function openChat(){const m=chatEls().modal;if(!m)return;m.classList.add("open");m.setAttribute("aria-hidden","false");document.body.classList.add("chat-open");document.getElementById("chatRef")?.focus();}
+function openChat(){const m=chatEls().modal;if(!m)return;m.classList.add("open");m.setAttribute("aria-hidden","false");document.body.classList.add("chat-open");document.getElementById("chatName")?.focus();}
 function closeChat(){const m=chatEls().modal;if(!m)return;m.classList.remove("open");m.setAttribute("aria-hidden","true");document.body.classList.remove("chat-open");}
 function renderChat(thread){
   const e=chatEls(); if(!e.messages)return;
@@ -580,22 +580,23 @@ function renderChat(thread){
   e.messages.scrollTop=e.messages.scrollHeight;
 }
 async function openChatConversation(){
-  const ref=document.getElementById("chatRef")?.value.trim(), email=document.getElementById("chatEmail")?.value.trim().toLowerCase();
+  const name=document.getElementById("chatName")?.value.trim(), email=document.getElementById("chatEmail")?.value.trim().toLowerCase();
   const e=chatEls();
-  if(!ref||!email){e.accessMsg.textContent="Enter your request reference and the email used on the request.";return;}
+  if(!name||!email){e.accessMsg.textContent="Enter your name and email to start chatting.";return;}
   e.accessMsg.textContent="Opening secure conversation…";
   try{
     const existing=JSON.parse(localStorage.getItem("geoChatAccess")||"null");
-    let token=existing?.requestId===ref&&existing?.email===email?existing.token:"";
+    let ref=existing?.email===email?existing.requestId:"",token=existing?.email===email?existing.token:"";
     if(!token){
-      const r=await fetch(chatEndpoint(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create",requestId:ref,email})});
+      ref="CHAT-"+Date.now();
+      const r=await fetch(chatEndpoint(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create",requestId:ref,email,name})});
       const data=await r.json();if(!r.ok||!data.ok)throw new Error(data.error||"Could not open the conversation.");
       token=data.token;localStorage.setItem("geoChatAccess",JSON.stringify({requestId:ref,email,token}));
     }
     const r=await fetch(`${chatEndpoint()}?requestId=${encodeURIComponent(ref)}&email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`);
     const data=await r.json();if(!r.ok||!data.ok)throw new Error(data.error||"Could not load the conversation.");
     chatState={requestId:ref,email,token,thread:data.thread};
-    e.access.classList.add("hidden");e.room.classList.remove("hidden");document.getElementById("chatRoomRef").textContent=ref;renderChat(data.thread);e.status.textContent="Conversation connected.";
+    e.access.classList.add("hidden");e.room.classList.remove("hidden");document.getElementById("chatRoomRef").textContent="Chatting as "+(name||email);renderChat(data.thread);e.status.textContent="Conversation connected.";
   }catch(err){e.accessMsg.textContent=String(err.message||err);}
 }
 async function sendChatMessage(ev){
@@ -607,7 +608,7 @@ async function sendChatMessage(ev){
     document.getElementById("chatText").value="";chatState.thread=data.thread;renderChat(data.thread);status.textContent="Sent.";
   }catch(err){status.textContent=String(err.message||err);}
 }
-function resetChat(){chatState={requestId:"",email:"",token:"",thread:null};document.getElementById("chatAccess")?.classList.remove("hidden");document.getElementById("chatRoom")?.classList.add("hidden");document.getElementById("chatAccessMsg").textContent="";}
+function resetChat(){chatState={requestId:"",email:"",token:"",thread:null};document.getElementById("chatAccess")?.classList.remove("hidden");document.getElementById("chatRoom")?.classList.add("hidden");document.getElementById("chatAccessMsg").textContent="";localStorage.removeItem("geoChatAccess");document.getElementById("chatName").value="";document.getElementById("chatEmail").value="";}
 function initChat(){
   document.getElementById("chatFab")?.addEventListener("click",openChat);
   document.querySelectorAll("[data-close-chat]").forEach(x=>x.addEventListener("click",closeChat));
