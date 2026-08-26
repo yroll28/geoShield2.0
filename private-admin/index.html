@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Private Owner Portal | GeoShield</title>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/private-admin/admin.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div id="login" class="login">
+  <div class="login-card">
+    <div class="logo">G</div>
+    <span>PRIVATE OWNER PORTAL</span>
+    <h1>GeoShield Administration</h1>
+    <p>This area is restricted to the site owner.</p>
+    <label class="login-label" for="u">Owner username</label>
+    <input id="u" autocomplete="username" placeholder="Enter owner username">
+    <label class="login-label" for="p">Owner password</label>
+    <input id="p" type="password" autocomplete="current-password" placeholder="Enter owner password" onkeydown="if(event.key==='Enter')login()">
+    <button class="gold-btn" type="button" onclick="login()">OWNER SIGN IN</button>
+    <small>Private access only. Do not share your login credentials.</small>
+    <p id="err"></p>
+    <a href="../index.html">← Return to website</a>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="admin-head">
+    <div><b>GEOSHIELD ADMIN</b><span>Business &amp; Website Management</span></div>
+    <nav>
+      <a href="../index.html" target="_blank" rel="noopener">View Website</a>
+      <a href="#" onclick="logout();return false;">Logout</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <aside id="sideNav">
+      <button class="active" data-tab="dash" onclick="tab('dash',this)">Dashboard</button>
+      <button data-tab="requests" onclick="tab('requests',this)">Service Requests</button>
+      <button data-tab="chat" onclick="tab('chat',this)">Customer Service</button>
+      <button data-tab="media" onclick="tab('media',this)">Homepage Media</button>
+      <button data-tab="services" onclick="tab('services',this)">Services</button>
+      <button data-tab="projects" onclick="tab('projects',this)">Projects</button>
+          <button data-tab="gismap" onclick="tab('gismap',this)">GIS Map Editor</button>
+      <button data-tab="news" onclick="tab('news',this)">News &amp; Updates</button>
+      <button data-tab="locations" onclick="tab('locations',this)">PH Locations</button>
+      <button data-tab="settings" onclick="tab('settings',this)">Website Settings</button>
+    </aside>
+
+    <main>
+      <section id="dash">
+        <span class="ey">ADMINISTRATION</span><h1>Dashboard</h1>
+        <div class="stats">
+          <div><small>Total Requests</small><b id="total">0</b></div>
+          <div><small>New</small><b id="new">0</b></div>
+          <div><small>In Progress</small><b id="prog">0</b></div>
+          <div><small>Completed</small><b id="done">0</b></div>
+        </div>
+        <div class="panel">
+          <h3>Business workflow</h3>
+          <p>Use incoming requests as leads. Review the location and scope, prepare a quotation, conduct GIS analysis in QGIS, then deliver the approved map/report to the client. When a service is marked <b>Completed</b>, add remarks and use the completion email action to notify the customer.</p>
+        </div>
+        <div class="panel">
+          <h3>Quick links</h3>
+          <div class="quicklinks">
+            <button type="button" class="secondary-btn" onclick="tab('media',document.querySelector('[data-tab=media]'))">Manage homepage slideshow</button>
+            <button type="button" class="secondary-btn" onclick="tab('projects',document.querySelector('[data-tab=projects]'))">Manage project photos</button>
+            <button type="button" class="secondary-btn" onclick="tab('requests',document.querySelector('[data-tab=requests]'))">Review new requests</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="requests" class="hidden">
+        <span class="ey">CLIENT MANAGEMENT</span><h1>Service Requests</h1>
+        <div class="panel toolbar"><input id="reqSearch" placeholder="Search by name, email, or barangay…" oninput="requests()"><p class="hint">Set a request to <b>Completed</b> to record the completion date and remarks. The system will prepare the universal completion email in Gmail for the customer.</p></div>
+        <div id="reqs"></div>
+      </section>
+
+      <section id="chat" class="hidden">
+        <span class="ey">CLIENT COMMUNICATION</span><h1>Customer Service Chat</h1>
+        <div class="panel chat-admin-connect">
+          <h3>Connect to secure chat</h3>
+          <p>Enter the server-side Customer Service Admin Key configured in your hosting environment. It is kept only in this browser session and is never saved to website settings.</p>
+          <div class="chat-admin-key-row"><input id="chatAdminKey" type="password" autocomplete="off" placeholder="Customer Service Admin Key"><button class="gold-btn" type="button" onclick="connectAdminChat()">CONNECT</button></div>
+          <p id="chatAdminStatus" class="hint"></p>
+        </div>
+        <div class="panel">
+          <div class="chat-admin-toolbar"><input id="adminChatSearch" placeholder="Search request reference, client name, or email…" oninput="renderAdminChats()"><button class="secondary-btn" type="button" onclick="refreshAdminChats()">↻ Refresh</button></div>
+          <div id="adminChatList"></div>
+          <div id="adminChatRoom" class="admin-chat-room hidden">
+            <div class="admin-chat-room-head"><div><b id="adminChatTitle"></b><small id="adminChatMeta"></small></div><button class="secondary-btn" type="button" onclick="closeAdminChat()">Close</button></div>
+            <div id="adminChatMessages" class="admin-chat-messages"></div>
+            <div class="admin-chat-compose"><textarea id="adminChatText" rows="3" maxlength="4000" placeholder="Write a reply to the client…"></textarea><button class="gold-btn" type="button" onclick="sendAdminChatReply()">SEND REPLY</button></div>
+            <p id="adminChatRoomStatus" class="hint"></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="media" class="hidden">
+        <span class="ey">HOMEPAGE MEDIA</span><h1>Hero Slideshow</h1>
+        <div class="panel">
+          <p>Upload photos for the homepage slideshow. If no photos are uploaded, the site shows a default gradient slideshow. Recommended: wide landscape photos, 1600×900 or larger.</p>
+          <label class="upload-drop" for="heroUpload">
+            <span class="upload-icon">＋</span>
+            <span>Click to upload one or more images</span>
+            <input id="heroUpload" type="file" accept="image/*" multiple hidden onchange="addHeroImages(this.files)">
+          </label>
+          <div id="heroGrid" class="media-grid"></div><p id="mediaUploadStatus" class="hint"></p><p id="mediaStorageUsage" class="hint"></p>
+        </div>
+
+        <h1 class="sub-h1">Site Logo</h1>
+        <div class="panel">
+          <p>Upload a circular logo image to replace the default "G" mark in the header.</p>
+          <div class="logo-row">
+            <div id="logoPreview" class="logo-preview">G</div>
+            <div class="logo-actions">
+              <label class="secondary-btn upload-btn" for="logoUpload">Upload Logo<input id="logoUpload" type="file" accept="image/*" hidden onchange="setLogo(this.files[0])"></label>
+              <button class="secondary-btn" type="button" onclick="removeLogo()">Remove Logo</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="hidden">
+        <span class="ey">CONTENT MANAGEMENT</span><h1>Manage Services</h1>
+        <div class="panel-list" id="servEdit"></div>
+        <div class="edit-actions">
+          <button class="secondary-btn" type="button" onclick="addService()">+ Add Service</button>
+          <button class="gold-btn" type="button" onclick="saveServices()">SAVE SERVICES</button>
+        </div>
+      </section>
+
+      <section id="gismap" class="hidden">
+        <span class="ey">GIS MAP MANAGEMENT</span><h1>Editable Sample GIS Map</h1>
+        <p class="hint">Edit the public sample map below. Click the map to add markers, drag markers to reposition them, edit their labels/colors, or reset the sample data. Changes are saved to this browser and immediately used by the public homepage.</p>
+        <div class="panel">
+          <div class="two-col-admin">
+            <label>Map Title<input id="gisTitle" placeholder="SAMPLE GIS MAP"></label>
+            <label>Initial Zoom<input id="gisZoom" type="number" min="2" max="19" step="1" value="6"></label>
+          </div>
+          <div class="two-col-admin">
+            <label>Center Latitude<input id="gisLat" type="number" step="0.000001" placeholder="12.8797"></label>
+            <label>Center Longitude<input id="gisLng" type="number" step="0.000001" placeholder="121.7740"></label>
+          </div>
+          <div class="edit-actions">
+            <button class="secondary-btn" type="button" onclick="gisLocateCenter()">Use map center</button>
+            <button class="secondary-btn" type="button" onclick="gisReset()">RESET SAMPLE MAP</button>
+            <button class="gold-btn" type="button" onclick="saveGISMap()">SAVE GIS MAP</button>
+          </div>
+          <p id="gisStatus" class="hint"></p>
+        </div>
+        <div class="panel">
+          <h3>Map Layers / Markers</h3>
+          <p class="hint">Click anywhere on the map to add a marker. Select a marker below to edit its name, category, color, and coordinates.</p>
+          <div id="gisMarkerEdit" class="panel-list"></div>
+        </div>
+        <div class="panel">
+          <div id="adminGISMap" class="admin-gis-map"></div>
+        </div>
+      </section>
+
+      <section id="projects" class="hidden">
+        <span class="ey">PORTFOLIO</span><h1>Manage Project Cards</h1>
+        <p class="hint">Each project card can have a photo. Without a photo, a default color gradient is shown.</p>
+        <div class="panel-list" id="projEdit"></div>
+        <div class="edit-actions">
+          <button class="secondary-btn" type="button" onclick="addProject()">+ Add Project</button>
+          <button class="gold-btn" type="button" onclick="saveProjects()">SAVE PROJECTS</button>
+        </div>
+      </section>
+
+      <section id="news" class="hidden">
+        <span class="ey">PUBLIC CONTENT</span><h1>News &amp; Updates</h1>
+        <div class="panel-list" id="newsEdit"></div>
+        <div class="edit-actions">
+          <button class="secondary-btn" type="button" onclick="addNews()">+ Add Update</button>
+          <button class="gold-btn" type="button" onclick="saveNews()">SAVE UPDATES</button>
+        </div>
+      </section>
+
+      <section id="locations" class="hidden">
+        <span class="ey">PSGC REFERENCE</span><h1>Philippine Regions, Provinces, Cities &amp; Barangays</h1>
+        <div class="panel">
+          <p>This browses the same live PSGC (Philippine Standard Geographic Code) directory used by the public request form — all 18 regions down to province, city/municipality, and barangay level. Use it to verify the location picker is working correctly.</p>
+          <div class="loc-picker">
+            <select id="locRegion" onchange="locOnRegion()"><option value="">Loading regions…</option></select>
+            <select id="locProvince" disabled><option value="">Select region first</option></select>
+            <select id="locCity" disabled><option value="">Select province first</option></select>
+            <select id="locBarangay" disabled><option value="">Select city first</option></select>
+          </div>
+          <p id="locStatus" class="hint"></p>
+        </div>
+      </section>
+
+      <section id="settings" class="hidden">
+        <span class="ey">WEBSITE SETTINGS</span><h1>Website Settings</h1>
+        <div class="panel form">
+          <label>Business Name<input id="name"></label>
+          <label>Hero Headline (homepage banner title)<textarea id="heroHeadline" rows="3"></textarea></label>
+          <label>Hero Subtext (homepage banner description)<textarea id="heroSub"></textarea></label>
+          <label>About Text<textarea id="about"></textarea></label>
+          <div class="two-col-admin">
+            <label>Contact Phone<input id="cPhone" placeholder="+63 9XX XXX XXXX"></label>
+            <label>Contact Email<input id="cEmail" placeholder="info@geoshield.ph"></label>
+          </div>
+          <label>Service Area<input id="cArea" placeholder="Philippines"></label>
+          <label>Automatic Email Endpoint<input id="emailEndpoint" placeholder="/api/send-completion-email"></label>
+          <label>Customer Service Chat Endpoint<input id="chatEndpoint" placeholder="/api/chat"></label>
+          <p class="hint">When a request is marked Completed, the portal first calls this server endpoint to send the customer's email automatically. Keep the email provider API key on the server, never in this page. Leave this as <b>/api/send-completion-email</b> for the included Vercel/Node endpoint, or use the Netlify function path <b>/.netlify/functions/send-completion-email</b>.</p>
+          <button class="gold-btn" type="button" onclick="saveSettings()">SAVE SETTINGS</button>
+          <p id="saved"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="/private-admin/admin.js"></script>
+</body>
+</html>
