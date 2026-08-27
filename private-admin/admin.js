@@ -78,7 +78,7 @@ function storageUsage(){
 
 /* ---------------------------- auth ---------------------------- */
 const OWNER_USERNAME = "owner";
-const OWNER_PASSWORD = "GS-Owner-Only-2026!";
+const OWNER_PASSWORD = "geoshield2026";
 
 function login(){
   const username=document.getElementById("u").value.trim();
