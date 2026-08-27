@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/admin", "destination": "/private-admin/index.html" },
+    { "source": "/admin/:path*", "destination": "/private-admin/:path*" }
+  ]
+}
