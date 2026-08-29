@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>GeoShield Mapping Services</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+
+<div class="utility">
+  <div>LANDSLIDE &amp; SOIL EROSION MAPPING SERVICES</div>
+  <div class="utility-contact">
+    <a id="utilPhone" href="tel:+639XXXXXXXXX">📞 <span>+63 9XX XXX XXXX</span></a>
+    <a id="utilEmail" href="mailto:info@geoshield.ph">✉ <span>info@geoshield.ph</span></a>
+  </div>
+</div>
+
+<header class="topbar" id="topbar">
+  <div class="brand">
+    <div class="logo" id="logoWrap"><span id="logoLetter">G</span><img id="logoImg" alt="" hidden></div>
+    <div class="brand-text"><h1 id="brandName">GeoShield Mapping Services</h1><span id="tagline">GIS-Based Landslide &amp; Soil Erosion Assessment</span></div>
+  </div>
+
+  <nav id="nav">
+    <a href="#home">HOME</a>
+    <a href="#services">SERVICES</a>
+    <a href="#map">MAP PORTAL</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#updates">UPDATES</a>
+    <a href="#about">ABOUT</a>
+    <a href="#contact">CONTACT</a>
+    <a class="request request-trigger" href="#request">REQUEST ASSESSMENT</a>
+    <button class="navClose" type="button" aria-label="Close menu" onclick="closeMenu()">✕</button>
+  </nav>
+
+  <button class="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()"><span class="menuIcon">☰</span></button>
+</header>
+<div class="navScrim" onclick="closeMenu()"></div>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-slides" id="heroSlides"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span>PROFESSIONAL GIS MAPPING SERVICES</span>
+    <h2 id="heroHeadline">Mapping the past.<br>Assessing the present.<br>Understanding potential.</h2>
+    <p id="heroSub">Specialized geospatial services for landslide and soil erosion assessment using QGIS-based analysis and spatial data.</p>
+    <button type="button" class="gold-btn request-trigger">REQUEST A MAPPING ASSESSMENT</button>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <button class="hero-arrow prev" type="button" aria-label="Previous slide" onclick="heroPrev()">‹</button>
+  <button class="hero-arrow next" type="button" aria-label="Next slide" onclick="heroNext()">›</button>
+  <a class="scroll-cue" href="#services" aria-label="Scroll to services"><span>SCROLL TO EXPLORE</span><b>↓</b></a>
+</section>
+
+<section class="quick">
+  <div><b data-animate-number="01">0</b><strong>Historical Erosion</strong><span>Identify and map past erosion and landslide activity.</span></div>
+  <div><b data-animate-number="02">0</b><strong>Current Assessment</strong><span>Document observable terrain and erosion conditions.</span></div>
+  <div><b data-animate-number="03">0</b><strong>Susceptibility</strong><span>Analyze terrain and environmental factors.</span></div>
+  <div><b data-animate-number="04">0</b><strong>Monitoring</strong><span>Track changes through periodic GIS assessment.</span></div>
+</section>
+
+<section id="services" class="section">
+  <div class="heading"><span>OUR SERVICES</span><h2>Specialized Mapping Services</h2><p>Focused GIS solutions for communities, projects, organizations, and decision-makers.</p></div>
+  <div id="serviceGrid" class="service-grid"></div>
+</section>
+
+<section id="map" class="section map-section">
+  <div class="heading"><span>MAP PORTAL</span><h2 id="publicMapHeading">Explore a Sample Erosion Intelligence Map</h2><p>This interactive prototype displays editable GIS markers and map information managed from the owner dashboard.</p></div>
+  <div class="map-wrap">
+    <div id="publicGISMap" class="public-gis-map"></div>
+    <div id="publicGISLegend" class="gis-legend gis-legend-collapsed" aria-label="Map legend"><button id="gisLegendToggle" class="gis-legend-toggle" type="button" aria-expanded="false" aria-controls="gisLegendBody">Legend <span aria-hidden="true">⌄</span></button><div id="gisLegendBody" class="gis-legend-body"></div></div>
+  </div>
+</section>
+
+<section id="projects" class="section">
+  <div class="heading"><span>PROJECTS</span><h2>Sample Mapping Outputs</h2><p>Replace these sample cards with your completed projects as your portfolio grows.</p></div>
+  <div id="projectGrid" class="project-grid"></div>
+</section>
+
+<section id="updates" class="section gray">
+  <div class="heading"><span>NEWS &amp; UPDATES</span><h2>Latest from GeoShield</h2></div>
+  <div id="newsGrid" class="news-grid"></div>
+  <div id="newsControls" class="news-controls" hidden aria-label="News navigation">
+    <button id="newsPrev" class="news-nav" type="button" aria-label="Previous updates">←</button>
+    <span id="newsPage" class="news-page" aria-live="polite"></span>
+    <button id="newsNext" class="news-nav" type="button" aria-label="Next updates">→</button>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div><span>ABOUT THE BUSINESS</span><h2>GIS intelligence focused on changing terrain.</h2><p id="aboutText">GeoShield Mapping Services focuses on landslide and soil erosion mapping, historical change analysis, susceptibility assessment, and monitoring. Our goal is to transform spatial data into clear, useful information for planning and decision-making.</p></div>
+  <div class="about-box"><strong>OUR APPROACH</strong><p>QGIS-based analysis • Spatial data • Cartographic design • Evidence-based assessment</p><small>Susceptibility outputs are not exact predictions of when a landslide will occur and should be interpreted alongside appropriate engineering, geological, field, and official hazard information.</small></div>
+</section>
+
+<section id="request" class="section request">
+  <div class="heading"><span>CLIENT SERVICES</span><h2>Request a Mapping Assessment</h2>
+  <p>Ready to discuss a landslide, soil erosion, historical change, or susceptibility mapping project?</p>
+  <button class="gold-btn request-trigger" type="button">OPEN REQUEST FORM</button></div>
+</section>
+
+<div id="requestModal" class="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="requestTitle">
+    <button class="modal-close" type="button" aria-label="Close" data-close-modal>✕</button>
+    <div class="modal-head">
+      <span>PROJECT INQUIRY</span>
+      <h2 id="requestTitle">Request a Mapping Assessment</h2>
+      <p>Tell us about your project. We will review the information and contact you for clarification, quotation, scheduling, or next steps.</p>
+    </div>
+
+    <form id="requestForm" class="modal-form">
+      <div class="form-section-title">1. CLIENT INFORMATION</div>
+      <div class="two-col">
+        <label>Full Name *<input required name="name" autocomplete="name" placeholder="Juan Dela Cruz"></label>
+        <label>Organization / Company <input name="organization" autocomplete="organization" placeholder="Optional"></label>
+        <label>Email Address *<input required type="email" name="email" autocomplete="email" placeholder="you@example.com"></label>
+        <label>Mobile Number *<input required type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+63 9XX XXX XXXX"></label>
+        <label>Client Type *
+          <select required name="clientType">
+            <option value="">Select</option><option>Individual / Property Owner</option><option>Private Company</option><option>Engineering / Construction Firm</option><option>Consultant / Professional</option><option>School / Researcher</option><option>Community / Organization</option><option>Government / LGU</option><option>Other</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-section-title">2. PROJECT LOCATION</div>
+      <p class="form-note">Select the official Philippine administrative location (Region, Province, City/Municipality, Barangay). Lists are loaded live from the PSGC reference database. If a list fails to load, a manual text field appears automatically so the form always works.</p>
+      <div class="two-col">
+        <label>Region *<span class="field-wrap"><select required id="region" name="region"><option value="">Loading regions…</option></select></span></label>
+        <label id="provinceWrap">Province *<span class="field-wrap"><select required id="province" name="province" disabled><option value="">Select region first</option></select></span></label>
+        <label id="cityWrap">City / Municipality *<span class="field-wrap"><select required id="city" name="city" disabled><option value="">Select province/region first</option></select></span></label>
+        <label id="barangayWrap">Barangay *<span class="field-wrap"><select required id="barangay" name="barangay" disabled><option value="">Select city/municipality first</option></select></span></label>
+        <label class="full">Street / Purok / Sitio / House or Lot Description *<input required name="streetAddress" placeholder="Enter the specific project/site address"></label>
+        <label>ZIP Code <input id="zip" name="zip" inputmode="numeric" maxlength="4" placeholder="Auto-filled when available"></label>
+        <label>Project Area (approx.) <input name="area" placeholder="e.g., 2.5 hectares"></label>
+        <label>Latitude <input id="latitude" name="latitude" readonly placeholder="Click the map"></label>
+        <label>Longitude <input id="longitude" name="longitude" readonly placeholder="Click the map"></label>
+        <div class="full coordinate-map-wrap">
+          <div class="map-instruction"><b>PIN THE PROJECT LOCATION</b><span>Click the map at the exact or approximate site. You can drag the marker to refine it.</span></div>
+          <div id="requestMap"></div>
+          <div class="map-actions"><button type="button" class="secondary-btn" id="useLocation">USE MY CURRENT LOCATION</button><button type="button" class="secondary-btn" id="clearLocation">CLEAR PIN</button></div>
+        </div>
+      </div>
+
+      <div class="form-section-title">3. MAPPING REQUIREMENTS</div>
+      <div class="two-col">
+        <label>Requested Service *
+          <select required name="service" id="serviceSelect">
+            <option value="">Select service</option>
+            <option>Historical Erosion Assessment</option><option>Landslide Inventory Mapping</option><option>Susceptibility Assessment</option><option>Site-Specific Assessment</option><option>Erosion Monitoring</option><option>Custom GIS Analysis</option>
+          </select>
+        </label>
+        <label>Preferred Completion Date <input type="date" name="deadline"></label>
+        <label class="full">Project Purpose *<textarea required name="purpose" placeholder="Example: site planning, research, infrastructure planning, environmental assessment, documentation, etc."></textarea></label>
+        <label class="full">Project Details / Concerns *<textarea required name="message" placeholder="Describe the erosion/landslide issue, known history, desired map outputs, available data, or other important information."></textarea></label>
+        <label class="full">Reference Files <input type="file" name="referenceFiles" accept=".pdf,.jpg,.jpeg,.png,.zip,.kml,.kmz,.geojson,.shp,.gpkg" multiple><small>Prototype only: files are not uploaded to a server yet.</small></label>
+      </div>
+
+      <div class="privacy-box">
+        <strong>PRIVACY NOTICE &amp; ACKNOWLEDGMENT</strong>
+        <p>This form collects personal and project information to evaluate and respond to your mapping inquiry, communicate with you, prepare quotations/proposals, coordinate services, maintain project records, and provide requested outputs. Information will be accessed only by authorized personnel or service providers who need it for these purposes. We will retain information only for as long as reasonably necessary for the stated purposes and applicable legal/accounting requirements.</p>
+        <p>You have rights under the Philippine Data Privacy Act of 2012 (RA 10173), including rights relating to being informed, access, correction, objection, erasure/blocking where applicable, data portability, and complaint. The exact lawful basis, retention period, recipients, and controller/DPO contact should be finalized in the business's full Privacy Notice before production use.</p>
+        <p><b>Important:</b> This prototype is not legal advice. Before launch, replace the placeholder business/contact details with your actual Personal Information Controller details and have the final privacy notice reviewed for your specific processing activities.</p>
+        <label class="consent"><input required type="checkbox" name="privacyAcknowledgment"> I have read and understood the Privacy Notice above and acknowledge that my information will be processed for the purposes stated. *</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+        <button type="submit" class="gold-btn">SUBMIT PROJECT REQUEST</button>
+      </div>
+      <p id="requestMsg" class="form-success" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<section id="contact" class="contact">
+  <div><span>CONTACT US</span><h2>Let's discuss your mapping project.</h2><p>For quotation, project requirements, or custom GIS services, contact GeoShield Mapping Services.</p></div>
+  <div class="contact-card">
+    <b>Email</b><p><a id="contactEmail" href="mailto:info@geoshield.ph">info@geoshield.ph</a></p>
+    <b>Phone</b><p><a id="contactPhone" href="tel:+639XXXXXXXXX">+63 9XX XXX XXXX</a></p>
+    <b>Service Area</b><p id="contactArea">Philippines</p>
+  </div>
+</section>
+</main>
+
+<!-- Customer service chat -->
+<button id="chatFab" class="chat-fab" type="button" aria-label="Open customer service chat">💬 <span>Customer Service</span></button>
+<div id="chatModal" class="chat-modal" aria-hidden="true">
+  <div class="chat-backdrop" data-close-chat></div>
+  <div class="chat-card" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+    <button class="chat-close" type="button" aria-label="Close customer service" data-close-chat>✕</button>
+    <div class="chat-head"><span>CUSTOMER SERVICE</span><h2 id="chatTitle">Chat with GeoShield</h2><p>Have a question? Start a conversation with our team — no request reference needed.</p></div>
+    <div id="chatAccess">
+      <label>Your Name<input id="chatName" placeholder="Juan Dela Cruz" autocomplete="name"></label>
+      <label>Email Address<input id="chatEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
+      <button id="chatOpenBtn" class="gold-btn" type="button">START CHAT</button>
+      <p id="chatAccessMsg" class="form-success" aria-live="polite"></p>
+    </div>
+    <div id="chatRoom" class="hidden">
+      <div class="chat-room-meta"><b id="chatRoomRef"></b><button id="chatChange" type="button" class="secondary-btn">Change</button></div>
+      <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+      <form id="chatForm" class="chat-compose"><textarea id="chatText" rows="2" maxlength="4000" placeholder="Type your message…" required></textarea><button class="gold-btn" type="submit">SEND</button></form>
+      <p id="chatStatus" class="hint"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy center -->
+<div id="privacyModal" class="privacy-modal" aria-hidden="true">
+  <div class="privacy-backdrop" data-close-privacy></div>
+  <div class="privacy-card" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <button class="privacy-close" type="button" aria-label="Close privacy center" data-close-privacy>✕</button>
+    <span>PRIVACY &amp; DATA PROTECTION</span><h2 id="privacyTitle">GeoShield Privacy Notice</h2>
+    <p>GeoShield Mapping Services processes personal information only for declared and legitimate purposes such as receiving project requests, communicating with clients, providing quotations and services, maintaining project records, and providing requested outputs. The site may use browser storage (such as localStorage) to keep temporary request/chat access information on the client device.</p>
+    <h3>What we may collect</h3><p>Name, organization, email, phone number, project location, project requirements, messages, and information needed to deliver the requested service. Please do not submit sensitive personal information unless it is genuinely necessary and a lawful basis exists.</p>
+    <h3>How we protect and use it</h3><p>Access should be limited to authorized personnel and contracted processors who need the information. Data should be kept only as long as necessary for the stated purpose or applicable legal obligations, then securely deleted or anonymized. Chat messages are part of the service record and may be retained for support, accountability, and dispute resolution.</p>
+    <h3>Your rights</h3><p>Subject to the Data Privacy Act of 2012 and applicable rules, data subjects may have rights to be informed, access, correct, object to certain processing, request erasure or blocking where applicable, obtain data portability, and lodge a complaint with the National Privacy Commission.</p>
+    <h3>Controller &amp; privacy contact</h3><p id="privacyContact">GeoShield Mapping Services · info@geoshield.ph</p>
+    <p class="privacy-disclaimer"><b>Implementation note:</b> This website notice is a practical template, not legal advice. Before production, the actual business should confirm its Personal Information Controller identity, lawful bases, retention periods, processor agreements, security measures, breach-response process, and Data Protection Officer contact.</p>
+  </div>
+</div>
+
+<footer>
+  <div><strong id="footerName">GeoShield Mapping Services</strong><p>Specialized Landslide &amp; Soil Erosion Mapping</p></div>
+  <div><p>© <span id="year"></span> All Rights Reserved.</p><p><button id="privacyLink" class="footer-link" type="button">Privacy &amp; Data Protection</button></p></div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
